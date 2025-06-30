@@ -150,7 +150,7 @@ async def get_phone_number_from_waiting_list(db: AsyncSession, phone_number: str
         str | None: Phone number if found, None otherwise.
     """
     result = await db.execute(
-        select(WaitingList.phone_number).where(WaitingList.phone_number == phone_number)
+        select(WaitingList).where(WaitingList.phone_number == phone_number)
     )
     return result.scalar_one_or_none()
 
