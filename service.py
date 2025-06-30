@@ -154,7 +154,7 @@ async def get_phone_number_from_waiting_list(db: AsyncSession, phone_number: str
     )
     return result.scalar_one_or_none()
 
-async def add_to_waiting_list(db: AsyncSession, phone_number: str) -> WaitingList:
+async def add_to_waiting_list(db: AsyncSession, phone_number: str) -> WaitingList | None:
     """
     Add a phone number to the waiting list.
 
@@ -166,9 +166,9 @@ async def add_to_waiting_list(db: AsyncSession, phone_number: str) -> WaitingLis
         WaitingList: The created WaitingList object.
     """
     if await get_phone_number_from_waiting_list(db, phone_number):
-        raise ValueError("This phone number is already in the waiting list.")
+        return None
     if len(phone_number) != 13:
-        raise ValueError("Phone number must be 13 characters long.")
+        return None
 
     waiting_list_entry = WaitingList(phone_number=phone_number)
     db.add(waiting_list_entry)
