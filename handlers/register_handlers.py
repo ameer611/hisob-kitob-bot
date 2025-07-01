@@ -59,7 +59,7 @@ async def process_phone_number(message: Message, state: FSMContext):
         return
 
     waiting_list_validation = await get_phone_number_from_waiting_list(db, user_data['phone_number'])
-    if waiting_list_validation:
+    if not waiting_list_validation:
         await message.answer("Sizning telefon raqamingiz kutish ro'yxatida mavjud emas. Iltimos, admin bilan bog'laning.")
         return
 
